@@ -31,7 +31,7 @@ public class WaterManager {
         waterTimer += delta * waterRegenMultiplier;
         if (waterTimer >= WATER_REGEN_INTERVAL) {
             waterTimer -= WATER_REGEN_INTERVAL;
-            currentWater += 0.6f;
+            currentWater += 0.5f;
             currentWater = Math.min(currentWater, MAX_WATER);
         }
     }

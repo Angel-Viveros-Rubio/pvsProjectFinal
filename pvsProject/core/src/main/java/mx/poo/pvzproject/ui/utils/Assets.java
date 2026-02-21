@@ -135,7 +135,7 @@ public class Assets {
         defeatOverlay = new Texture(Gdx.files.internal("ui/GameLose_" + lang + ".png"));
         victoryOverlay = new Texture(Gdx.files.internal("ui/GameVictory_" + lang + ".png"));
         retryButton = new Texture(Gdx.files.internal("ui/retryButton_" + lang + ".png"));
-        nextLevelButton = new Texture(Gdx.files.internal("ui/nextButton_" + lang + ".png"));
+        nextLevelButton = new Texture(Gdx.files.internal("ui/NextButton_" + lang + ".png"));
 
         /* ---------- UI fija ---------- */
 
@@ -189,7 +189,7 @@ public class Assets {
             papaComida2Frames[i - 1] = new Texture(Gdx.files.internal("plants/papa/papaComida2/PapaComida2 (" + i + ").png"));
 
         for (int i = 1; i <= 8; i++)
-            waterPlantFrames[i - 1] = new Texture(Gdx.files.internal("plants/waterplant/WaterPlant (" + i + ").png"));
+            waterPlantFrames[i - 1] = new Texture(Gdx.files.internal("plants/waterplant/WaterPLant (" + i + ").png"));
 
         for (int i = 1; i <= 11; i++)
             redBomFrames[i - 1] = new Texture(Gdx.files.internal("plants/redbom/Redbom (" + i + ").png"));
