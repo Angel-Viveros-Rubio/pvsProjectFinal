@@ -1,33 +1,57 @@
-# PvsS
+# Plants vs Slimes
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+Proyecto académico desarrollado en Java utilizando LibGDX.
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+---
 
-## Platforms
+##  Nota Importante
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
+Debido al tamaño del proyecto compilado, el juego completo no pudo ser subido directamente a GitHub.
 
-## Gradle
+Para facilitar su descarga y ejecución, el build final del juego fue publicado en Itch.io:
 
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+**Descargar aquí:**  
+https://angel-viveros-rubio.itch.io/plants-vs-slimes
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
+Itch.io se utilizó únicamente como plataforma de distribución para permitir una descarga más sencilla del ejecutable.
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+---
+
+##  Documentación UML
+
+Se ha creado una carpeta adicional llamada: UML
+Esta carpeta contiene:
+
+- Diagramas de clases utilizados para el diseño del sistema.
+- Diagramas de secuencia que muestran la interacción entre componentes.
+- Documento explicativo que describe la función y responsabilidad de cada clase del proyecto.
+
+Estos archivos documentan el proceso de diseño y desarrollo del sistema, mostrando la arquitectura y estructura interna del juego.
+
+---
+
+## Arquitectura del Proyecto
+
+El juego fue desarrollado siguiendo principios de:
+
+- Programación Orientada a Objetos (POO)
+- Separación de responsabilidades
+- Arquitectura modular basada en managers
+- Sistema de oleadas dinámico
+- Sistema de recursos (agua)
+- Renderizado desacoplado de la lógica
+
+---
+
+## Descripción del Juego
+
+Plants vs Slimes es un juego tipo *tower defense* donde el jugador debe colocar plantas estratégicamente para defenderse de oleadas progresivas de enemigos (slimes).
+
+El sistema incluye:
+
+- Múltiples tipos de enemigos
+- Progresión por niveles
+- Sistema de oleadas configurable
+- Gestión de recursos
+- Sistema de colocación de plantas
+
