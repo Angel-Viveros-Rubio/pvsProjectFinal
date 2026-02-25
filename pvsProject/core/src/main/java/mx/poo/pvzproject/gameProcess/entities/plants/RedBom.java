@@ -13,10 +13,37 @@ import mx.poo.pvzproject.ui.utils.Assets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Planta explosiva de uso único (Petacereza).
+ *
+ * <p>
+ * La RedBom explota poco después de ser colocada o al entrar en contacto
+ * con un enemigo, infligiendo daño masivo en un área circular.
+ * </p>
+ *
+ * <p>
+ * Características:
+ * </p>
+ * <ul>
+ *     <li>Daño de área (AoE).</li>
+ *     <li>Uso único (se destruye al explotar).</li>
+ *     <li>Costo medio-alto.</li>
+ *     <li>Cooldown largo.</li>
+ * </ul>
+ *
+ * @author SmallJunior
+ * @version 1.0
+ */
 public class RedBom extends Plant {
 
     private Animation<TextureRegion> animation;
 
+    /**
+     * Constructor de la RedBom.
+     *
+     * @param x posición en X
+     * @param y posición en Y
+     */
     public RedBom(float x, float y) {
         super(x, y);
         this.maxResistanceTime = 100f; // no muere por tiempo
@@ -55,6 +82,11 @@ public class RedBom extends Plant {
         }
     }
 
+    /**
+     * Ejecuta la lógica de explosión, dañando a enemigos cercanos.
+     *
+     * @param enemies lista de enemigos activos
+     */
     private void explode(List<Enemy> enemies) {
 
         float range = 150f;

@@ -16,54 +16,95 @@ import java.util.Iterator;
 import static mx.poo.pvzproject.ui.utils.Constants.CARD_HEIGHT;
 
 /**
- * Lógica de actualización del juego por frame.
- * Depende de IGameContext (no de GameScreenManager directamente).
+ * Encapsula la lógica de actualización del juego en cada frame.
+ *
+ * <p>
+ * Esta clase representa el núcleo del ciclo de actualización (update loop)
+ * del juego. Se ejecuta una vez por frame y coordina todos los sistemas
+ * lógicos necesarios para mantener el estado dinámico de la partida.
+ * </p>
+ *
+ * <p>
+ * Responsabilidades principales:
+ * </p>
+ * <ul>
+ *     <li>Actualizar recursos (agua y cooldowns).</li>
+ *     <li>Procesar entrada del jugador.</li>
+ *     <li>Gestionar colocación de plantas.</li>
+ *     <li>Actualizar plantas, enemigos y proyectiles.</li>
+ *     <li>Controlar colisiones.</li>
+ *     <li>Gestionar defensas y olas de jabón.</li>
+ *     <li>Determinar condiciones de victoria y derrota.</li>
+ * </ul>
+ *
+ * <p>
+ * Depende exclusivamente de {@link IGameContext}, lo que garantiza
+ * bajo acoplamiento y facilita pruebas, mantenimiento y extensibilidad.
+ * </p>
+ *
+ * @author SmallJunior
+ * @version 1.0
  */
 public class GameUpdater {
 
+    /** Contexto del juego. */
     private final IGameContext ctx;
-    private final Viewport     viewport;
+
+    /** Viewport activo para convertir coordenadas de entrada. */
+    private final Viewport viewport;
+
+    /** Temporizador inicial del nivel para controlar la victoria. */
     private float startLevelTimer = 0f;
+
     /**
-     * Encapsula la lógica de actualización del juego en cada frame.
+     * Constructor del actualizador del juego.
      *
-     * Esta clase se encarga de:
-     * - Actualizar recursos (agua y cooldowns).
-     * - Procesar entrada del jugador.
-     * - Actualizar plantas, enemigos y proyectiles.
-     * - Gestionar colisiones.
-     * - Controlar condiciones de victoria y derrota.
-     *
-     * Depende únicamente de {@link IGameContext}, evitando acoplamiento
-     * directo con la clase principal que implementa el estado del juego.
+     * @param ctx       contexto del juego
+     * @param viewport  viewport activo
      */
     public GameUpdater(IGameContext ctx, Viewport viewport) {
-        this.ctx      = ctx;
+        this.ctx = ctx;
         this.viewport = viewport;
     }
 
+    /**
+     * Ejecuta la actualización lógica del juego para un frame.
+     *
+     * @param delta tiempo transcurrido desde el último frame
+     */
     public void update(float delta) {
+
         startLevelTimer += delta;
 
-        // Agua y cooldowns
+        // =============================
+        // Actualización de recursos
+        // =============================
+
         ctx.getManagers().waterManager.update(delta, ctx.getPlants());
 
-        ctx.getCooldowns().corn       = Math.max(0f, ctx.getCooldowns().corn       - delta);
-        ctx.getCooldowns().papa       = Math.max(0f, ctx.getCooldowns().papa       - delta);
-        ctx.getCooldowns().water      = Math.max(0f, ctx.getCooldowns().water      - delta);
-        ctx.getCooldowns().redBom     = Math.max(0f, ctx.getCooldowns().redBom     - delta);
-        ctx.getCooldowns().lilyPad    = Math.max(0f, ctx.getCooldowns().lilyPad    - delta);
-        ctx.getCooldowns().maceta     = Math.max(0f, ctx.getCooldowns().maceta     - delta);
-        ctx.getCooldowns().campanilla = Math.max(0f, ctx.getCooldowns().campanilla - delta);
-        ctx.getCooldowns().champi     = Math.max(0f, ctx.getCooldowns().champi     - delta);
+        ctx.getCooldowns().setCorn(Math.max(0f, ctx.getCooldowns().getCorn() - delta));
+        ctx.getCooldowns().setPapa(Math.max(0f, ctx.getCooldowns().getPapa() - delta));
+        ctx.getCooldowns().setWater(Math.max(0f, ctx.getCooldowns().getWater() - delta));
+        ctx.getCooldowns().setRedBom(Math.max(0f, ctx.getCooldowns().getRedBom() - delta));
+        ctx.getCooldowns().setLilyPad(Math.max(0f, ctx.getCooldowns().getLilyPad() - delta));
+        ctx.getCooldowns().setMaceta(Math.max(0f, ctx.getCooldowns().getMaceta() - delta));
+        ctx.getCooldowns().setCampanilla(Math.max(0f, ctx.getCooldowns().getCampanilla() - delta));
+        ctx.getCooldowns().setChampi(Math.max(0f, ctx.getCooldowns().getChampi() - delta));
 
-        // Soap defenses
+        // =============================
+        // Defensas de jabón
+        // =============================
+
         for (SoapDefense soap : ctx.getSoapDefenses()) {
             soap.tryActivate(ctx);
         }
 
-        // Input selección de cartas
+        // =============================
+        // Entrada: selección de cartas
+        // =============================
+
         if (Gdx.input.justTouched()) {
+
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             viewport.unproject(touchPos);
 
@@ -78,19 +119,23 @@ public class GameUpdater {
             else if (touchPos.x >= Constants.CARD_X9 && touchPos.x < Constants.CARD_X9 + Constants.CARD_WIDTH && touchPos.y >= Constants.CARDS_Y && touchPos.y < Constants.CARDS_Y + CARD_HEIGHT) ctx.setSelectedPlant(8);
         }
 
+        // =============================
         // Colocación de plantas
+        // =============================
+
         ctx.getManagers().plantPlacer.handleInput();
 
-        // Update plantas
+        // =============================
+        // Actualización de entidades
+        // =============================
+
         for (Plant p : ctx.getPlants()) {
             p.update(delta);
             p.act(delta, ctx.getProjectiles(), ctx.getEnemies());
         }
 
-        // Spawner
         ctx.getManagers().spawner.update(delta, ctx.getEnemies());
 
-        // SoapWaves
         Iterator<SoapWave> waveIter = ctx.getSoapWaves().iterator();
         while (waveIter.hasNext()) {
             SoapWave wave = waveIter.next();
@@ -98,60 +143,56 @@ public class GameUpdater {
             if (!wave.isActive()) waveIter.remove();
         }
 
-        // Contacto enemigo-planta
-        for (Enemy e : ctx.getEnemies()) {
-            Plant target = null;
-            float closestDistance = Float.MAX_VALUE;
-            for (Plant p : ctx.getPlants()) {
-                if (Math.abs(e.getY() - p.getY()) < 80 && p.getX() > e.getX()) {
-                    float distance = p.getX() - e.getX();
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        target = p;
-                    }
-                }
-            }
-            if (target != null && closestDistance <= 100) {
-                target.increaseResistanceTimer(delta);
-                e.setEating(true);
-            } else {
-                e.setEating(false);
-            }
-        }
-
         for (Projectile p : ctx.getProjectiles()) p.update(delta);
-        for (Enemy e     : ctx.getEnemies())      e.update(delta);
+        for (Enemy e : ctx.getEnemies()) e.update(delta);
 
-        // Colisiones proyectil-enemigo
+        // =============================
+        // Colisiones
+        // =============================
+
         Iterator<Projectile> projIter = ctx.getProjectiles().iterator();
         while (projIter.hasNext()) {
             Projectile p = projIter.next();
             Iterator<Enemy> enemyIter = ctx.getEnemies().iterator();
             while (enemyIter.hasNext()) {
                 Enemy e = enemyIter.next();
-                if (Math.abs(p.getX() - e.getX()) < 50 && Math.abs(p.getY() - e.getY()) < 50) {
+                if (Math.abs(p.getX() - e.getX()) < 50 &&
+                    Math.abs(p.getY() - e.getY()) < 50) {
+
                     e.takeDamage(p.getDamage());
                     projIter.remove();
+
                     if (e.isDead()) enemyIter.remove();
                     break;
                 }
             }
         }
 
-        // Limpieza
+        // =============================
+        // Limpieza de entidades
+        // =============================
+
         ctx.getProjectiles().removeIf(Projectile::isOffScreen);
         ctx.getEnemies().removeIf(e -> e.isOffScreen() || e.isDead());
         ctx.getPlants().removeIf(Plant::isDead);
 
-        // Victoria
-        if (startLevelTimer > 2.0f && ctx.getManagers().spawner.isLevelComplete(ctx.getEnemies())) {
+        // =============================
+        // Condición de victoria
+        // =============================
+
+        if (startLevelTimer > 2.0f &&
+            ctx.getManagers().spawner.isLevelComplete(ctx.getEnemies())) {
+
             ctx.setVictory(true);
             ctx.setDefeat(false);
             ctx.setGameActive(false);
             ctx.markGameOverTriggered();
         }
 
-        // Derrota
+        // =============================
+        // Condición de derrota
+        // =============================
+
         for (Enemy e : ctx.getEnemies()) {
             if (e.getX() < 0) {
                 ctx.setDefeat(true);
