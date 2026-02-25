@@ -14,12 +14,39 @@ import mx.poo.pvzproject.ui.utils.Assets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Planta básica de ataque a distancia (Lanzamaíz).
+ *
+ * <p>
+ * El CornShooter es la unidad de defensa estándar. Dispara proyectiles
+ * de maíz en línea recta hacia la derecha cuando detecta un enemigo
+ * en su carril.
+ * </p>
+ *
+ * <p>
+ * Características:
+ * </p>
+ * <ul>
+ *     <li>Costo bajo.</li>
+ *     <li>Cadencia de disparo media.</li>
+ *     <li>Daño moderado.</li>
+ * </ul>
+ *
+ * @author SmallJunior
+ * @version 1.0
+ */
 public class CornShooter extends Plant implements Disparador {
 
     private float shootTimer = 0f;
     private final float SHOOT_INTERVAL = 1.8f;
     private final int DAMAGE = 15; // daño del CornShooter
 
+    /**
+     * Constructor del CornShooter.
+     *
+     * @param x posición en X
+     * @param y posición en Y
+     */
     public CornShooter(float x, float y) {
         super(x, y);
         this.maxResistanceTime = 3f; // ← aguanta 3 segundos de contacto

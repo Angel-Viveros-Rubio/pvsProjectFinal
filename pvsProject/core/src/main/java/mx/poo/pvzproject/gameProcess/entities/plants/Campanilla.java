@@ -15,12 +15,38 @@ import mx.poo.pvzproject.ui.utils.Assets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Planta ofensiva que dispara pétalos en tres direcciones.
+ *
+ * <p>
+ * La Campanilla es una planta avanzada que ataca no solo en su carril,
+ * sino también en los carriles adyacentes (arriba y abajo).
+ * </p>
+ *
+ * <p>
+ * Características:
+ * </p>
+ * <ul>
+ *     <li>Ataque multidireccional.</li>
+ *     <li>Costo elevado.</li>
+ *     <li>Resistencia media.</li>
+ * </ul>
+ *
+ * @author SmallJunior
+ * @version 1.0
+ */
 public class Campanilla extends Plant implements Disparador {
 
     private float shootTimer = 0f;
     private final float SHOOT_INTERVAL = 2f; // un poco más lento que CornShooter (ajusta)
     private final int DAMAGE = 20; // daño por pétalo (ajusta si quieres)
 
+    /**
+     * Constructor de la Campanilla.
+     *
+     * @param x posición en X
+     * @param y posición en Y
+     */
     public Campanilla(float x, float y) {
         super(x, y);
         this.maxResistanceTime = 6f; // aguanta un poco más (opcional)

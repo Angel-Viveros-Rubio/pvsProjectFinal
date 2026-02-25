@@ -13,7 +13,34 @@ import mx.poo.pvzproject.ui.utils.Assets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Planta de soporte para superficies acuáticas (Nenúfar).
+ *
+ * <p>
+ * El LilyPad permite colocar plantas terrestres sobre casillas de agua.
+ * Actúa como una plataforma flotante.
+ * </p>
+ *
+ * <p>
+ * Características:
+ * </p>
+ * <ul>
+ *     <li>Solo se puede colocar en agua.</li>
+ *     <li>Permite colocar otra planta encima (SupportsPlant).</li>
+ *     <li>Costo muy bajo.</li>
+ * </ul>
+ *
+ * @author SmallJunior
+ * @version 1.0
+ */
 public class LilyPad extends Plant implements WaterPlaceable, SupportsPlant {
+
+    /**
+     * Constructor del Nenúfar.
+     *
+     * @param x posición en X
+     * @param y posición en Y
+     */
     public LilyPad(float x, float y) {
         super(x, y);
         this.maxResistanceTime = 2f; // aguanta como otras (ajusta si quieres inmortal o menos)

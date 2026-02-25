@@ -14,7 +14,34 @@ import mx.poo.pvzproject.ui.utils.Assets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Planta de soporte para superficies de piedra (Maceta).
+ *
+ * <p>
+ * La Maceta permite colocar plantas sobre casillas de terreno rocoso
+ * o pavimentado donde normalmente no crecerían.
+ * </p>
+ *
+ * <p>
+ * Características:
+ * </p>
+ * <ul>
+ *     <li>Solo se puede colocar en terreno de piedra.</li>
+ *     <li>Permite colocar otra planta encima (SupportsPlant).</li>
+ *     <li>Costo bajo.</li>
+ * </ul>
+ *
+ * @author SmallJunior
+ * @version 1.0
+ */
 public class Maceta extends Plant implements StonePlaceable, SupportsPlant {
+
+    /**
+     * Constructor de la Maceta.
+     *
+     * @param x posición en X
+     * @param y posición en Y
+     */
     public Maceta(float x, float y) {
         super(x, y);
         this.maxResistanceTime = 5f; // aguanta como otras (ajusta si quieres inmortal o menos)

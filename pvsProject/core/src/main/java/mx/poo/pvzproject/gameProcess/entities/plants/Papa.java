@@ -10,6 +10,27 @@ import mx.poo.pvzproject.gameProcess.entities.projectiles.Projectile;
 import mx.poo.pvzproject.ui.utils.Assets;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Planta defensiva de alta resistencia (Nuez).
+ *
+ * <p>
+ * La Papa actúa como un muro defensivo, bloqueando el avance de los enemigos
+ * gracias a su elevada resistencia.
+ * </p>
+ *
+ * <p>
+ * Características:
+ * </p>
+ * <ul>
+ *     <li>Alta resistencia (vida).</li>
+ *     <li>No ataca.</li>
+ *     <li>Cambia de apariencia (animación) según el daño recibido.</li>
+ * </ul>
+ *
+ * @author SmallJunior
+ * @version 1.0
+ */
 public class Papa extends Plant {
 
     // 3 animaciones según tiempo restante
@@ -17,6 +38,12 @@ public class Papa extends Plant {
     private Animation<TextureRegion> comida1Animation;
     private Animation<TextureRegion> comida2Animation;
 
+    /**
+     * Constructor de la Papa.
+     *
+     * @param x posición en X
+     * @param y posición en Y
+     */
     public Papa(float x, float y) {
         super(x, y);
         this.maxResistanceTime = 40f; // ← aguanta 40 segundos

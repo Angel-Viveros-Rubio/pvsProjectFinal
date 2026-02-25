@@ -11,10 +11,36 @@ import mx.poo.pvzproject.ui.utils.Assets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Planta generadora de recursos (Girasol de agua).
+ *
+ * <p>
+ * La WaterPlant no ataca, pero su presencia en el tablero acelera
+ * la regeneración automática de agua (recurso principal).
+ * </p>
+ *
+ * <p>
+ * Características:
+ * </p>
+ * <ul>
+ *     <li>Generación pasiva de recursos.</li>
+ *     <li>Baja resistencia.</li>
+ *     <li>Costo bajo.</li>
+ * </ul>
+ *
+ * @author SmallJunior
+ * @version 1.0
+ */
 public class WaterPlant extends Plant {
 
     private Animation<TextureRegion> animation;
 
+    /**
+     * Constructor de la WaterPlant.
+     *
+     * @param x posición en X
+     * @param y posición en Y
+     */
     public WaterPlant(float x, float y) {
         super(x, y);
         this.maxResistanceTime = 5f; // aguanta poco (como Girasol)

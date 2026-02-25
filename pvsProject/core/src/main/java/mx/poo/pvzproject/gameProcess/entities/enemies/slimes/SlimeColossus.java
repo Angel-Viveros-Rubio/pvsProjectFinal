@@ -8,8 +8,34 @@ import com.badlogic.gdx.utils.Array;
 import mx.poo.pvzproject.gameProcess.entities.enemies.Enemy;
 import mx.poo.pvzproject.ui.utils.Assets;
 
+/**
+ * Enemigo tipo jefe (Slime Coloso).
+ *
+ * <p>
+ * El Slime Colossus es una unidad masiva con una cantidad de vida
+ * extremadamente alta, pero movimiento muy lento. Actúa como
+ * un "tanque" definitivo o mini-jefe.
+ * </p>
+ *
+ * <p>
+ * Estadísticas:
+ * </p>
+ * <ul>
+ *     <li>Vida: 600 (Muy alta)</li>
+ *     <li>Velocidad: 15 (Muy lenta)</li>
+ * </ul>
+ *
+ * @author SmallJunior
+ * @version 1.0
+ */
 public class SlimeColossus extends Enemy {
 
+    /**
+     * Constructor del Slime Coloso.
+     *
+     * @param x posición inicial en X
+     * @param y posición inicial en Y
+     */
     public SlimeColossus(float x, float y) {
         super(x, y, 600, 15f);
     }

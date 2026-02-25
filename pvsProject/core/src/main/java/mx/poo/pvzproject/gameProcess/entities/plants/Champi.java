@@ -12,6 +12,28 @@ import mx.poo.pvzproject.ui.utils.Assets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Planta de uso único que aplasta a los enemigos cercanos.
+ *
+ * <p>
+ * El Champi actúa como una mina de proximidad. Cuando un enemigo
+ * entra en su rango de ataque, se activa y realiza un ataque
+ * devastador que inflige gran daño, destruyéndose a sí mismo
+ * en el proceso.
+ * </p>
+ *
+ * <p>
+ * Estados:
+ * </p>
+ * <ul>
+ *     <li>IDLE: Esperando enemigo.</li>
+ *     <li>ALERT: Enemigo detectado (preparación).</li>
+ *     <li>SMASH: Ataque y autodestrucción.</li>
+ * </ul>
+ *
+ * @author SmallJunior
+ * @version 1.0
+ */
 public class Champi extends Plant {
 
     private enum State {
@@ -31,6 +53,12 @@ public class Champi extends Plant {
     private float alertTimer = 0f;
     private final float alertDuration = 0.3f; // tiempo mostrando ceja
 
+    /**
+     * Constructor del Champi.
+     *
+     * @param x posición en X
+     * @param y posición en Y
+     */
     public Champi(float x, float y) {
         super(x, y);
         this.cost = 5;
